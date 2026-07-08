@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Desain Kustom untuk Tombol Navigasi Tab */
+.tab-btn {
+    padding-bottom: 0.75rem;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.tab-btn.active {
+    color: #2563eb;
+    border-bottom: 2px solid #2563eb;
+}
+.tab-btn.inactive {
+    color: #64748b;
+    border-bottom: 2px solid transparent;
+}
+.tab-btn.inactive:hover {
+    color: #334155;
+}
+
+/* Status Badges */
+.badge-success {
+    background-color: #ecfdf5;
+    color: #047857;
+    border: 1px solid #d1fae5;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-weight: 500;
+}
+.badge-processing {
+    background-color: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #dbeafe;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+.badge-error {
+    background-color: #fff1f2;
+    color: #b91c1c;
+    border: 1px solid #ffe4e6;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-weight: 500;
+}
+
+/* Ringkasan Nilai Card */
+.summary-card {
+    background-color: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    min-width: 110px;
+    text-align: center;
+    flex: 1;
+}
+@media (min-width: 1024px) {
+    .summary-card {
+        flex: none;
+    }
+}
+.summary-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    color: #94a3b8;
+    margin-top: 0.125rem;
+}
