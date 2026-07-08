@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Turunan Numerik</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+        
+        <aside class="w-full md:w-80 bg-white border-r border-slate-200 p-6 flex flex-col justify-between">
+            <div>
+                <div class="flex items-center gap-3 mb-8">
+                    <div class="bg-blue-600 text-white p-2 rounded-lg shadow-md shadow-blue-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </div>
+                    <span class="font-bold text-xl text-blue-600 tracking-tight">TurunanNumerik</span>
+                </div>
+
+                <h2 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-1">Input Parameter</h2>
+                <p class="text-xs text-slate-400 mb-6">Konfigurasikan fungsi dan titik evaluasi untuk perhitungan.</p>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">🖮 Fungsi F(x)</label>
+                        <input type="text" id="input-fx" value="sin(x) * exp(x)" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1"># Titik Evaluasi (x)</label>
+                        <input type="number" id="input-x" value="0.5" step="any" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">∿ Ukuran Langkah (h)</label>
+                        <input type="number" id="input-h" value="0.1" step="any" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-slate-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all">
+                    </div>
+
+                    <button onclick="hitungSemua()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm py-2.5 px-4 rounded-lg shadow-lg shadow-blue-100 flex items-center justify-center gap-2 transition-all mt-2 cursor-pointer">
+                        Hitung Turunan
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-6 bg-blue-50/70 border border-blue-100 rounded-xl p-4 flex gap-3 items-start">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p class="text-xs text-blue-700/90 leading-relaxed">
+                    Gunakan notasi standar matematika. Pastikan ukuran langkah (h) cukup kecil untuk akurasi optimal.
+                </p>
+            </div>
+        </aside>
+
+        <main class="flex-1 p-6 md:p-8 flex flex-col justify-between">
+            <div>
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                            <span class="p-1.5 bg-blue-50 text-blue-600 rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" /></svg>
+                            </span>
+                            Dashboard Analisis Turunan
+                        </h1>
+                        <p class="text-sm text-slate-500 mt-1">Hasil perhitungan diferensiasi numerik dengan berbagai metode selisih.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between border-b border-slate-200 mb-6">
+                    <div class="flex gap-6 text-sm font-medium">
+                        <button id="tab-maju" onclick="switchTab('maju')" class="tab-btn active">Selisih Maju</button>
+                        <button id="tab-mundur" onclick="switchTab('mundur')" class="tab-btn inactive">Selisih Mundur</button>
+                        <button id="tab-pusat" onclick="switchTab('pusat')" class="tab-btn inactive">Selisih Pusat</button>
+                    </div>
+                    <div class="mb-3">
+                        <span id="status-badge" class="badge-success">Sistem Siap</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
+                    
+                    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+                        <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <span class="w-1 h-5 bg-blue-600 rounded-full"></span>
+                            Aproksimasi Turunan Pertama
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead>
+                                    <tr class="text-slate-400 font-medium text-xs border-b border-slate-100">
+                                        <th class="pb-3">🗂 Tabel Turunan Pertama f'(x)</th>
+                                        <th class="pb-3">Nilai Hasil</th>
+                                        <th class="pb-3 text-right">Galat (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-f1" class="divide-y divide-slate-50">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+                        <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <span class="w-1 h-5 bg-blue-600 rounded-full"></span>
+                            Aproksimasi Turunan Kedua
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm">
+                                <thead>
+                                    <tr class="text-slate-400 font-medium text-xs border-b border-slate-100">
+                                        <th class="pb-3">🗂 Tabel Turunan Kedua f''(x)</th>
+                                        <th class="pb-3">Nilai Hasil</th>
+                                        <th class="pb-3 text-right">Galat (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-f2" class="divide-y divide-slate-50">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-5 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <div class="space-y-1 max-w-2xl">
+                        <h4 class="text-sm font-bold text-blue-700 flex items-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                            Analisis Konvergensi
+                        </h4>
+                        <p id="analisis-teks" class="text-xs text-slate-600 leading-relaxed">
+                            Memproses data analisis...
+                        </p>
+                    </div>
+                    <div class="flex gap-3 w-full lg:w-auto shrink-0">
+                        <div class="summary-card">
+                            <div id="final-f1" class="text-lg font-bold text-blue-600">-</div>
+                            <div class="summary-label">FINAL F'(X)</div>
+                        </div>
+                        <div class="summary-card">
+                            <div id="final-f2" class="text-lg font-bold text-rose-500">-</div>
+                            <div class="summary-label">FINAL F''(X)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="mt-8 pt-4 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-slate-400">
+                <div class="flex gap-4">
+                    <a href="#" class="hover:text-slate-600 transition-colors">Dokumentasi API</a>
+                    <a href="#" class="hover:text-slate-600 transition-colors">Metodologi Numerik</a>
+                    <a href="#" class="hover:text-slate-600 transition-colors">Bantuan</a>
+                </div>
+                <div>
+                    © 2026 Kalkulator Turunan Numerik v2.1.0
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
